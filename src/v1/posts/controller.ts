@@ -9,7 +9,8 @@ import {
   FileService,
   RandomService,
   SearchService,
-  TimeService
+  TimeService,
+  VisionService
 } from "../../services";
 import * as errors from "../errors";
 
@@ -18,12 +19,11 @@ export class PostController {
    * Handler for adding a post.
    */
   public static async addPost(req: Request, res: Response) {
-    let post = {
-      id: RandomService.uuid(),
-      createdAt: TimeService.unix(),
-      isResolved: false,
-      ...req.body
-    };
+    let post = req.body;
+    post.id = RandomService.uuid();
+    post.createdAt = TimeService.unix();
+    post.isResolved = false;
+
     if (post.image) {
       const decoded = DataURIService.decode(post.image);
       if (!decoded) {
@@ -36,6 +36,7 @@ export class PostController {
         mediaType
       );
     }
+    post.visionTags = await VisionService.analyze(post.image);
     try {
       post = await res.locals.tx.post
         .query()
@@ -46,6 +47,9 @@ export class PostController {
     }
     post.comments = [];
     await SearchService.add(post.id, PostController.getIndexFields(post));
+    post.similarPosts = await SearchService.query(
+      PostController.getIndexFieldsString(post)
+    );
     res.send(post);
   }
 
@@ -87,25 +91,23 @@ export class PostController {
     }
 
     /* fetch similar posts */
-    post.similarPosts = [];
-    const similarPostIds = await SearchService.query(
+    post.similarPosts = await SearchService.query(
       PostController.getIndexFieldsString(post)
     );
-    for (const similarPostId of similarPostIds) {
-      const [similarPost] = await res.locals.tx.post
-        .query()
-        .where({ id: similarPostId });
 
-      if (similarPost) {
-        post.similarPosts.push(similarPost);
-      }
-    }
     res.send(post);
   }
 
   private static getIndexFields(post) {
-    const { title, description, postTags, imageTags, ...rest } = post;
-    return { title, description, postTags, imageTags };
+    const {
+      title,
+      description,
+      postTags,
+      imageTags,
+      visionTags,
+      ...rest
+    } = post;
+    return { title, description, postTags, imageTags, visionTags };
   }
 
   private static getIndexFieldsString(post): string {
@@ -114,7 +116,8 @@ export class PostController {
       `${post.title} ` +
       `${post.description} ` +
       post.postTags.reduce((cur, next) => `${cur} ${next}`, "") +
-      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "")
+      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "") +
+      post.visionTags.reduce((cur, next) => `${cur} ${next}`, "")
     );
   }
 }
