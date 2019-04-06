@@ -4,7 +4,7 @@
  */
 
 import { Request, Response } from "express";
-import { RandomService } from "../../services";
+import { RandomService, SearchService } from "../../services";
 import * as errors from "../errors";
 
 export class PostController {
@@ -24,7 +24,7 @@ export class PostController {
     } catch (e) {
       throw errors.INTERNAL_DATABASE_ERROR();
     }
-    // TODO: image/entity recognition
+    await SearchService.add(post.id, PostController.getIndexFields(post));
     res.send(post);
   }
 
@@ -39,5 +39,10 @@ export class PostController {
       throw errors.INTERNAL_DATABASE_ERROR();
     }
     res.send(posts);
+  }
+
+  private static getIndexFields(post) {
+    const { title, description, location, postTags, imageTags, ...rest } = post;
+    return { title, description, location, postTags, imageTags };
   }
 }
