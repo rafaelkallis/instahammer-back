@@ -31,3 +31,8 @@ export const INTERNAL = ServerErrorFactory(
   "INTERNAL_ERROR",
   "Request cannot be processed due to internal error."
 );
+
+export const UNIMPLEMENTED = ServerErrorFactory(
+  "UNIMPLEMENTED_ERROR",
+  "The endpoint has not been implemented yet."
+);

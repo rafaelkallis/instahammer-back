@@ -5,7 +5,10 @@
 
 import * as express from "express";
 import { handleError } from "./middleware";
+import { postRouter } from "./posts";
 
 export const v1Router = express.Router();
+
+v1Router.use("/posts", postRouter);
 
 v1Router.use(handleError());
