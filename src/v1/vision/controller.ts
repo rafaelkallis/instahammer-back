@@ -28,9 +28,8 @@ export class VisionController {
       payload,
       mediaType
     );
-    let visionTags = await VisionService.analyze(imageUrl);
-    visionTags = visionTags.filter(tag => Boolean(tag));
+    const tags = await VisionService.analyze(imageUrl);
     await FileService.delete(key);
-    res.send(visionTags);
+    res.send(tags);
   }
 }
