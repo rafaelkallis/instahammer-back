@@ -14,7 +14,8 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL,
   algoliaApiKey: process.env.ALGOLIASEARCH_API_KEY,
   algoliaApiKeySearch: process.env.ALGOLIASEARCH_API_KEY_SEARCH,
-  algoliaApplicationId: process.env.ALGOLIASEARCH_APPLICATION_ID
+  algoliaApplicationId: process.env.ALGOLIASEARCH_APPLICATION_ID,
+  algoliaIndexName: process.env.ALGOLIASEARCH_INDEX_NAME
 };
 
 if (process.env.NODE_ENV === "production") {
