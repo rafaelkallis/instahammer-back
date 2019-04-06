@@ -9,8 +9,7 @@ import {
   FileService,
   RandomService,
   SearchService,
-  TimeService,
-  VisionService
+  TimeService
 } from "../../services";
 import * as errors from "../errors";
 
@@ -36,7 +35,6 @@ export class PostController {
         mediaType
       );
     }
-    post.visionTags = await VisionService.analyze(post.image);
     try {
       post = await res.locals.tx.post
         .query()
@@ -101,23 +99,26 @@ export class PostController {
   private static getIndexFields(post) {
     const {
       title,
-      description,
+      // description,
       postTags,
       imageTags,
-      visionTags,
       ...rest
     } = post;
-    return { title, description, postTags, imageTags, visionTags };
+    return { 
+      title, 
+      // description, 
+      postTags, 
+      imageTags
+    };
   }
 
   private static getIndexFieldsString(post): string {
     return (
       "" +
       `${post.title} ` +
-      `${post.description} ` +
+      // `${post.description} ` +
       post.postTags.reduce((cur, next) => `${cur} ${next}`, "") +
-      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "") +
-      post.visionTags.reduce((cur, next) => `${cur} ${next}`, "")
+      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "")
     );
   }
 }

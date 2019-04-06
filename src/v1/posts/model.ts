@@ -28,6 +28,5 @@ export class Post extends Model {
       y: number;
     };
   }>;
-  public visionTags: string[];
   public isResolved: boolean;
 }
