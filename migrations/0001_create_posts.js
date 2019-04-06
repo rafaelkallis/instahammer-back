@@ -11,9 +11,9 @@ exports.up = async knex => {
       description VARCHAR(1024),
       created_at INTEGER NOT NULL,
       location JSONB NOT NULL,
-      post_tags JSONB,
-      image VARCHAR(255),
-      image_tags JSONB
+      post_tags VARCHAR(255)[] NOT NULL,
+      image VARCHAR(255) NOT NULL,
+      image_tags JSONB[] NOT NULL
     );
   `);
 };

@@ -11,5 +11,9 @@ if (process.env.NODE_ENV !== "production") {
 
 export const config = {
   port: process.env.PORT,
-  databaseUrl: process.env.DATABAE_URL
+  databaseUrl: process.env.DATABASE_URL
 };
+
+if (process.env.NODE_ENV === "production") {
+  config.databaseUrl += "?ssl=true";
+}

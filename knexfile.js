@@ -9,7 +9,9 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 
-module.exports = {
-  client: 'pg',
-  connection: process.env.DATABASE_URL + '?ssl=true'
-};
+exports.client = "pg";
+exports.connection = process.env.DATABASE_URL;
+
+if (process.env.NODE_ENV === 'production') {
+  exports.connection += "?ssl=true";
+}

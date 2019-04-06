@@ -27,12 +27,17 @@ const ServerErrorFactory = (code, message) => () => ({
   message
 });
 
-export const INTERNAL = ServerErrorFactory(
+export const INTERNAL_ERROR = ServerErrorFactory(
   "internal_error",
-  "Request cannot be processed due to internal error."
+  "Request cannot be processed due to an internal error."
 );
 
-export const UNIMPLEMENTED = ServerErrorFactory(
+export const UNIMPLEMENTED_ERROR = ServerErrorFactory(
   "unimplemented_error",
   "The endpoint has not been implemented yet."
+);
+
+export const INTERNAL_DATABASE_ERROR = ServerErrorFactory(
+  "internal_database_error",
+  "Request cannot be processed due to an internal database error."
 );

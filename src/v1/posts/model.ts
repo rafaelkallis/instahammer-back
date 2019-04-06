@@ -7,6 +7,7 @@ import { Model, snakeCaseMappers } from "objection";
 
 export class Post extends Model {
   public static tableName = "posts";
+  public static columnNameMappers = snakeCaseMappers();
 
   public id: string;
   public title: string;
