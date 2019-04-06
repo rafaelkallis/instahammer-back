@@ -27,4 +27,5 @@ export class Post extends Model {
       y: number;
     };
   }>;
+  public isResolved: boolean;
 }

@@ -21,6 +21,7 @@ export class PostController {
     let post = {
       id: RandomService.uuid(),
       createdAt: TimeService.unix(),
+      isResolved: true,
       ...req.body
     };
     if (post.image) {
