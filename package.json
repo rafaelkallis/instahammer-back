@@ -2,13 +2,16 @@
   "name": "instahammer-back",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "start": "node build/index.js",
     "dev": "ts-node --transpile-only src/index.ts",
     "dev:watch": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "build": "tsc",
     "build:watch": "tsc --watch",
+    "heroku-postbuild": "npm run build",
     "=+= Code Format =+=": "",
     "lint": "tslint --project tsconfig.json --format codeFrame",
     "lint:fix": "tslint --fix --project tsconfig.json",
