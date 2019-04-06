@@ -11,6 +11,7 @@ export class Post extends Model {
   public static columnNameMappers = snakeCaseMappers();
 
   public id: string;
+  public author: string;
   public title: string;
   public description: string;
   public createdAt: number;
