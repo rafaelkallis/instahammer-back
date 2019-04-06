@@ -33,6 +33,7 @@
   "homepage": "https://github.com/rafaelkallis/instahammer-back#readme",
   "devDependencies": {
     "@types/algoliasearch": "3.30.7",
+    "@types/aws-sdk": "2.7.0",
     "@types/body-parser": "1.17.0",
     "@types/dotenv-safe": "5.0.3",
     "@types/express": "4.16.1",
@@ -49,6 +50,7 @@
   },
   "dependencies": {
     "algoliasearch": "3.32.1",
+    "aws-sdk": "2.437.0",
     "body-parser": "1.18.3",
     "dotenv-safe": "6.1.0",
     "express": "4.16.4",

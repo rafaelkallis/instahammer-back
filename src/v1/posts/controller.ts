@@ -4,7 +4,7 @@
  */
 
 import { Request, Response } from "express";
-import { RandomService, SearchService } from "../../services";
+import { DataURIService, FileService, RandomService, SearchService } from "../../services";
 import * as errors from "../errors";
 
 export class PostController {
@@ -16,6 +16,18 @@ export class PostController {
       id: RandomService.uuid(),
       ...req.body
     };
+    if (post.image) {
+      const decoded = DataURIService.decode(post.image);
+      if (!decoded) {
+        throw errors.INVALID_IMAGE_ERROR();
+      }
+      const { mediaType, payload } = decoded;
+      post.image = await FileService.upload(
+        RandomService.uuid(),
+        payload,
+        mediaType
+      );
+    }
     try {
       post = await res.locals.tx.post
         .query()

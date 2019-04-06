@@ -15,7 +15,10 @@ export const config = {
   algoliaApiKey: process.env.ALGOLIASEARCH_API_KEY,
   algoliaApiKeySearch: process.env.ALGOLIASEARCH_API_KEY_SEARCH,
   algoliaApplicationId: process.env.ALGOLIASEARCH_APPLICATION_ID,
-  algoliaIndexName: process.env.ALGOLIASEARCH_INDEX_NAME
+  algoliaIndexName: process.env.ALGOLIASEARCH_INDEX_NAME,
+  s3AccessKeyId: process.env.S3_ACCESS_KEY_ID,
+  s3SecretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  s3Bucket: process.env.S3_BUCKET
 };
 
 if (process.env.NODE_ENV === "production") {

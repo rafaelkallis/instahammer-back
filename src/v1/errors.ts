@@ -46,3 +46,8 @@ export const POST_NOT_FOUND_ERROR = ServerErrorFactory(
   "post_not_found_error",
   "No post found with the given id."
 );
+
+export const INVALID_IMAGE_ERROR = ServerErrorFactory(
+  "invalid_image_error",
+  "Given image is invalid."
+);
