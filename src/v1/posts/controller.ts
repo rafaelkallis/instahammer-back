@@ -65,7 +65,12 @@ export class PostController {
    * Handler for querying posts.
    */
   public static async getPosts(req: Request, res: Response) {
-    // TODO: implement
-    res.send([DummyPost(), DummyPost(), DummyPost()]);
+    let posts;
+    try {
+      posts = await res.locals.tx.post.query();
+    } catch (e) {
+      throw errors.INTERNAL_DATABASE_ERROR();
+    }
+    res.send(posts);
   }
 }
