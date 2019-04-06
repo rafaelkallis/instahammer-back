@@ -18,7 +18,8 @@ export const config = {
   algoliaIndexName: process.env.ALGOLIASEARCH_INDEX_NAME,
   s3AccessKeyId: process.env.S3_ACCESS_KEY_ID,
   s3SecretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  s3Bucket: process.env.S3_BUCKET
+  s3Bucket: process.env.S3_BUCKET,
+  googleVisionApiKey: process.env.GOOGLE_VISION_API_KEY
 };
 
 if (process.env.NODE_ENV === "production") {

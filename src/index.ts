@@ -9,7 +9,7 @@ import * as Knex from "knex";
 import { Model } from "objection";
 import { config } from "./config";
 import { router } from "./router";
-import { LogService } from "./services";
+import { LogService, VisionService } from "./services";
 
 const knex = Knex({
   client: "pg",

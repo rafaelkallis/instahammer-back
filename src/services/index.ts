@@ -9,3 +9,4 @@ export { RandomService } from "./random";
 export { SearchService } from "./search";
 export { FileService } from "./file";
 export { DataURIService } from "./data-uri";
+export { VisionService } from "./vision";
