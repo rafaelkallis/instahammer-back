@@ -4,7 +4,13 @@
  */
 
 import { Request, Response } from "express";
-import { DataURIService, FileService, RandomService, SearchService } from "../../services";
+import {
+  DataURIService,
+  FileService,
+  RandomService,
+  SearchService,
+  TimeService
+} from "../../services";
 import * as errors from "../errors";
 
 export class PostController {
@@ -14,6 +20,7 @@ export class PostController {
   public static async addPost(req: Request, res: Response) {
     let post = {
       id: RandomService.uuid(),
+      createdAt: TimeService.unix(),
       ...req.body
     };
     if (post.image) {
@@ -36,6 +43,7 @@ export class PostController {
     } catch (e) {
       throw errors.INTERNAL_DATABASE_ERROR();
     }
+    post.comments = [];
     await SearchService.add(post.id, PostController.getIndexFields(post));
     res.send(post);
   }
@@ -47,12 +55,18 @@ export class PostController {
     let posts;
     try {
       posts = await res.locals.tx.post.query();
+
+      for (const post of posts) {
+        post.comments = await res.locals.tx.comment
+          .query()
+          .where("post_id", post.id);
+      }
     } catch (e) {
       throw errors.INTERNAL_DATABASE_ERROR();
     }
     res.send(posts);
   }
-  
+
   /**
    * Handler for fetching single post.
    */
@@ -60,12 +74,12 @@ export class PostController {
     const { id } = req.params;
     let post;
     try {
-      const [result] = await res.locals.tx.post
-        .query()
-        .where({ id });
+      const [result] = await res.locals.tx.post.query().where("id", id);
       post = result;
+
+      post.comments = await res.locals.tx.comment.query().where("post_id", id);
     } catch (e) {
-      throw errors.INTERNAL_DATABASE_ERROR();
+      throw errors.POST_NOT_FOUND_ERROR();
     }
     if (!post) {
       throw errors.POST_NOT_FOUND_ERROR();
@@ -73,15 +87,16 @@ export class PostController {
 
     /* fetch similar posts */
     post.similarPosts = [];
-    const similarPostIds = await SearchService
-      .query(PostController.getIndexFieldsString(post))
+    const similarPostIds = await SearchService.query(
+      PostController.getIndexFieldsString(post)
+    );
     for (const similarPostId of similarPostIds) {
       const [similarPost] = await res.locals.tx.post
         .query()
         .where({ id: similarPostId });
-      
+
       if (similarPost) {
-        post.similarPosts.push(similarPost); 
+        post.similarPosts.push(similarPost);
       }
     }
     res.send(post);
@@ -93,11 +108,12 @@ export class PostController {
   }
 
   private static getIndexFieldsString(post): string {
-    return "" +
+    return (
+      "" +
       `${post.title} ` +
       `${post.description} ` +
       post.postTags.reduce((cur, next) => `${cur} ${next}`, "") +
-      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "");
-
+      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "")
+    );
   }
 }

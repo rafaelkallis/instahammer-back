@@ -6,6 +6,7 @@
 import { NextFunction, Request, Response } from "express";
 import { transaction } from "objection";
 import * as onFinished from "on-finished";
+import { Comment } from "../comments";
 import { Post } from "../posts";
 
 /**
@@ -20,9 +21,10 @@ export function transact() {
   ) {
     transaction(
       Post,
-      post =>
+      Comment,
+      (post, comment) =>
         new Promise((resolve, reject) => {
-          res.locals.tx = { post };
+          res.locals.tx = { post, comment };
           onFinished(res, err => {
             if (!err) {
               resolve();

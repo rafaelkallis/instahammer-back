@@ -12,7 +12,6 @@ const s3 = new aws.S3({
 });
 
 export class FileService {
-
   /**
    * Uploads the given payload and returns a URL.
    */

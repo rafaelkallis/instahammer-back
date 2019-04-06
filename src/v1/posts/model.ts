@@ -4,6 +4,7 @@
  */
 
 import { Model, snakeCaseMappers } from "objection";
+import { Comment } from "../comments";
 
 export class Post extends Model {
   public static tableName = "posts";

@@ -11,7 +11,7 @@ export class SearchService {
    * Search for similar posts given a string query.
    */
   public static async query(query: string): Promise<string[]> {
-    const results = await SearchService.index.search({ 
+    const results = await SearchService.index.search({
       query,
       attributesToRetrieve: ["objectID"],
       hitsPerPage: 5

@@ -14,7 +14,7 @@ export const postRouter = express.Router();
 postRouter.get("/", asyncWrap(PostController.getPosts));
 
 postRouter.get(
-  "/:id", 
+  "/:id",
   validate.params({ id: Joi.string() }),
   asyncWrap(PostController.getPost)
 );
@@ -24,7 +24,6 @@ postRouter.post(
   validate.body({
     title: Joi.string().required(),
     description: Joi.string().required(),
-    createdAt: Joi.number().required(),
     location: Joi.object({
       latitude: Joi.number().required(),
       longitude: Joi.number().required()
