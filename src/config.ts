@@ -10,5 +10,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export const config = {
-  port: process.env.PORT
+  port: process.env.PORT,
+  databaseUrl: process.env.DATABAE_URL
 };

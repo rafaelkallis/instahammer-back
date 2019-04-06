@@ -11,12 +11,15 @@
     "dev:watch": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm run build && npm run migrate",
     "=+= Code Format =+=": "",
     "lint": "tslint --project tsconfig.json --format codeFrame",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "prettier": "prettier --write \"src/**/*.ts\"",
-    "prettier:check": "prettier --check \"src/**/*.ts\""
+    "prettier:check": "prettier --check \"src/**/*.ts\"",
+    "=+= Database Administration =+=": "",
+    "migrate": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback"
   },
   "repository": {
     "type": "git",
@@ -44,6 +47,9 @@
     "body-parser": "1.18.3",
     "dotenv-safe": "6.1.0",
     "express": "4.16.4",
+    "knex": "0.16.3",
+    "objection": "1.6.7",
+    "pg": "7.9.0",
     "winston": "3.2.1"
   }
 }

@@ -5,9 +5,18 @@
 
 import * as bodyParser from "body-parser";
 import * as express from "express";
+import * as Knex from "knex";
+import { Model } from "objection";
 import { config } from "./config";
 import { router } from "./router";
 import { LogService } from "./services";
+
+const knex = Knex({
+  client: "pg",
+  connection: config.databaseUrl
+});
+
+Model.knex(knex);
 
 const app = express();
 
