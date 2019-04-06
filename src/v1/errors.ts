@@ -28,11 +28,11 @@ const ServerErrorFactory = (code, message) => () => ({
 });
 
 export const INTERNAL = ServerErrorFactory(
-  "INTERNAL_ERROR",
+  "internal_error",
   "Request cannot be processed due to internal error."
 );
 
 export const UNIMPLEMENTED = ServerErrorFactory(
-  "UNIMPLEMENTED_ERROR",
+  "unimplemented_error",
   "The endpoint has not been implemented yet."
 );
