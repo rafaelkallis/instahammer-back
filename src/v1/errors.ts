@@ -41,3 +41,8 @@ export const INTERNAL_DATABASE_ERROR = ServerErrorFactory(
   "internal_database_error",
   "Request cannot be processed due to an internal database error."
 );
+
+export const POST_NOT_FOUND_ERROR = ServerErrorFactory(
+  "post_not_found_error",
+  "No post found with the given id."
+);

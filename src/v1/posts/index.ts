@@ -13,6 +13,12 @@ export const postRouter = express.Router();
 
 postRouter.get("/", asyncWrap(PostController.getPosts));
 
+postRouter.get(
+  "/:id", 
+  validate.params({ id: Joi.string() }),
+  asyncWrap(PostController.getPost)
+);
+
 postRouter.post(
   "/",
   validate.body({

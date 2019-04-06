@@ -40,9 +40,52 @@ export class PostController {
     }
     res.send(posts);
   }
+  
+  /**
+   * Handler for fetching single post.
+   */
+  public static async getPost(req: Request, res: Response) {
+    const { id } = req.params;
+    let post;
+    try {
+      const [result] = await res.locals.tx.post
+        .query()
+        .where({ id });
+      post = result;
+    } catch (e) {
+      throw errors.INTERNAL_DATABASE_ERROR();
+    }
+    if (!post) {
+      throw errors.POST_NOT_FOUND_ERROR();
+    }
+
+    /* fetch similar posts */
+    post.similarPosts = [];
+    const similarPostIds = await SearchService
+      .query(PostController.getIndexFieldsString(post))
+    for (const similarPostId of similarPostIds) {
+      const [similarPost] = await res.locals.tx.post
+        .query()
+        .where({ id: similarPostId });
+      
+      if (similarPost) {
+        post.similarPosts.push(similarPost); 
+      }
+    }
+    res.send(post);
+  }
 
   private static getIndexFields(post) {
-    const { title, description, location, postTags, imageTags, ...rest } = post;
-    return { title, description, location, postTags, imageTags };
+    const { title, description, postTags, imageTags, ...rest } = post;
+    return { title, description, postTags, imageTags };
+  }
+
+  private static getIndexFieldsString(post): string {
+    return "" +
+      `${post.title} ` +
+      `${post.description} ` +
+      post.postTags.reduce((cur, next) => `${cur} ${next}`, "") +
+      post.imageTags.reduce((cur, next) => `${cur} ${next.text}`, "");
+
   }
 }
