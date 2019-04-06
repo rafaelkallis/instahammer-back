@@ -5,6 +5,7 @@
 
 import { NextFunction, Request, Response } from "express";
 import { config } from "../../config";
+import { LogService } from "../../services";
 import { IClientError, INTERNAL, IServerError } from "../errors";
 
 /**
@@ -29,6 +30,7 @@ export function handleError() {
         error: { code, message }
       });
     } else {
+      LogService.error(String(err));
       const { code, message } = INTERNAL();
       res.status(500).send({
         error: { code, message }
