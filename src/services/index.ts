@@ -4,4 +4,3 @@
  */
 
 export { LogService } from "./log";
-export { ErrorService } from "./error";

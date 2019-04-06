@@ -4,4 +4,4 @@
  */
 
 export { asyncWrap } from "./asyncWrap";
-export { handleError } from "./error";
+export { handleError } from "./handleError";
