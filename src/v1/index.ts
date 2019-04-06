@@ -7,6 +7,7 @@ import * as express from "express";
 import { commentRouter } from "./comments";
 import { handleError, transact } from "./middleware";
 import { postRouter } from "./posts";
+import { visionRouter } from "./vision";
 
 export const v1Router = express.Router();
 
@@ -14,5 +15,6 @@ v1Router.use(transact());
 
 v1Router.use("/posts", postRouter);
 v1Router.use("/comments", commentRouter);
+v1Router.use("/vision", visionRouter);
 
 v1Router.use(handleError());

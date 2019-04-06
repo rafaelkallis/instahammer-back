@@ -39,7 +39,24 @@ export class FileService {
     });
   }
 
+  /**
+   * Deletes the object with the given key.
+   */
   public static async delete(key: string): Promise<void> {
-    // TODO: implement
+    return new Promise((resolve, reject) => {
+      const params = {
+        Bucket: config.s3Bucket,
+        Key: key
+      };
+
+      s3.deleteObject(params, (err: Error | null, data: any) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(data.Location);
+      });
+    });
   }
 }
