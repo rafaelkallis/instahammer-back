@@ -6,3 +6,4 @@
 export { LogService } from "./log";
 export { TimeService } from "./time";
 export { RandomService } from "./random";
+export { SearchService } from "./search";
