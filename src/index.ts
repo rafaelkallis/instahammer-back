@@ -13,7 +13,7 @@ import { LogService } from "./services";
 
 const knex = Knex({
   client: "pg",
-  connection: config.databaseUrl
+  connection: config.databaseUrl + '?ssl=true'
 });
 
 Model.knex(knex);
